@@ -1,44 +1,32 @@
-import { db } from "../config/database.connection.js";
+import db from "../config/database.connection.js";
 import { Movie, Review } from "../protocols/movies.protocols.js";
 
 async function search() {
-  return await db.query(
-    `
-    SELECT * FROM movies;
-    `
-  );
+  return await db.movies.findMany();
 }
 
 async function create(newMovie: Movie) {
-  return await db.query(
-    `
-    INSERT INTO movies
-      (title, genre, plataform)
-    VALUES ($1, $2, $3);
-    `,
-    [newMovie.title, newMovie.genre, newMovie.plataform]
-  );
+  return await db.movies.create({
+    data: {
+      ...newMovie,
+    },
+  });
 }
 
 async function edit(id: number, review: Review) {
-  return await db.query(
-    `
-    UPDATE movies
-    SET status = $1, review = $2 
-    WHERE "id"=$3;
-    `,
-    [true, review.review, id]
-  );
+  return await db.movies.update({
+    data: {
+      status: true,
+      review: review.review,
+    },
+    where: { id },
+  });
 }
 
 async function remove(id: number) {
-  return await db.query(
-    `
-    DELETE FROM movies 
-    WHERE "id"=$1;
-    `,
-    [id]
-  );
+  return await db.movies.delete({
+    where: { id },
+  });
 }
 
 export default {

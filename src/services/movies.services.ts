@@ -2,8 +2,7 @@ import { Movie, Review } from "../protocols/movies.protocols.js";
 import moviesRepositories from "../repositories/movies.repositories.js";
 
 async function search(): Promise<Movie[]> {
-  const { rows: result } = await moviesRepositories.search();
-  return result;
+  return await moviesRepositories.search();
 }
 
 async function create(newMovie: Movie) {
