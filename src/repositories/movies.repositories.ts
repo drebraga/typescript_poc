@@ -1,5 +1,5 @@
-import { db } from "../config/database.connection";
-import { Movie, Review } from "../protocols/movies.protocols";
+import { db } from "../config/database.connection.js";
+import { Movie, Review } from "../protocols/movies.protocols.js";
 
 async function search() {
   return await db.query(
@@ -23,7 +23,7 @@ async function create(newMovie: Movie) {
 async function edit(id: number, review: Review) {
   return await db.query(
     `
-    UPDATE movies 
+    UPDATE movies
     SET status = $1, review = $2 
     WHERE "id"=$3;
     `,
